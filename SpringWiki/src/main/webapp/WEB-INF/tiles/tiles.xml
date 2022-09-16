@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+  "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN"
+  "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+  
+  <tiles-definitions>
+  	
+  	<!-- 타일즈 템플릿 생성 -->
+  	<definition name="base" template="/WEB-INF/tiles/template.jsp">
+  		<put-attribute name="header" value="/WEB-INF/tiles/header.jsp"/>
+  		<put-attribute name="body" value=""/>
+  		<put-attribute name="footer" value="/WEB-INF/tiles/footer.jsp"/>
+  		<put-attribute name="aside" value="/WEB-INF/tiles/aside.jsp"/>
+  	</definition>
+
+
+	<!-- 위에 선언된 base템플릿을 상속 (body를 오버라이드한 개념)-->
+	<definition name="*" extends="base">
+		<put-attribute name="body" value="/WEB-INF/views/{1}.jsp" />
+	</definition>
+	
+	<definition name="*/*" extends="base">
+		<put-attribute name="body" value="/WEB-INF/views/{1}/{2}.jsp" />
+	</definition>
+	
+	<definition name="*/*/*" extends="base">
+		<put-attribute name="body" value="/WEB-INF/views/{1}/{2}/{3}.jsp" />
+	</definition>
+	
+
+  	
+  	<!-- Controller에서 반환되는 뷰 경로를 직접 지정 -->
+	<!-- name은 컨트롤러에서 반환되는 값 value -->  	
+  	<!-- <definition name="index" template="/WEB-INF/views/index.jsp"/>
+  	<definition name="aaa" template="/WEB-INF/views/aaa.jsp"/> -->
+  	
+  	<definition name="user/login" template="/WEB-INF/views/user/login.jsp"/>
+  	<definition name="views/index" template="/WEB-INF/views/index.jsp"/>
+  	
+  </tiles-definitions>

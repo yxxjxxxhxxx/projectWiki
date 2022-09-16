@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.3.xsd
+		http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+
+	<!-- 네임스페이스체크(스프링 jdbc와 마이바티스) -->
+	
+	
+	<!-- classpath:/ -> resources폴더 하위를 의미함 -->
+	<bean id="DBproperties" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="classpath:/db-config/hikari.properties"/>
+	</bean>
+	
+	
+	
+	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig" >
+		<property name="driverClassName" value="${ds.driverClassName}"/>
+		<property name="jdbcUrl" value="${ds.jdbcUrl}"/>
+		<property name="username" value="${ds.username}" />
+		<property name="password" value="${ds.password}" />
+	</bean>
+	
+	<!-- 커넥션 풀 적용(의존성 주입) -->
+	<bean id="ds" class="com.zaxxer.hikari.HikariDataSource" >
+		<constructor-arg ref="hikariConfig" />
+	</bean>	
+		
+	<!-- 마이바티스 설정객체 세션팩토리 빈 생성 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="ds"/>
+		<!-- 마이바티스 설정경로 -->
+		<property name="configLocation" value="classpath:/mybatis-config/mybatis-config.xml"/>
+		<!-- 마이바티스 구현체 xml의 경로 -->
+		<property name="mapperLocations" value="classpath:/sqlmap/*.xml"/>		
+	</bean>
+	
+	<!-- 마이바티스가 실행시킬 인터페이스 패키지의 위치 -->
+	<mybatis-spring:scan base-package="com.coding404.*"/>
+	
+
+		
+</beans>

@@ -1,0 +1,9 @@
+create table trip (
+	tno int primary key auto_increment,
+    tripdate varchar(50), 
+    writer varchar(50) not null,
+    title varchar(50) not null,
+    content varchar(1000),
+    hit int default 0,
+    regdate timestamp default current_timestamp 
+);

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.coding404.trip.service.WikiMapper">
+
+
+	<select id="getList" resultType="NoticeVO">
+		select * from notice
+		<if test="searchType == 'title' ">where title like concat('%',#{searchKey},'%')</if>
+		<if test="searchType == 'content' ">where content like concat('%',#{searchKey},'%')</if>
+		<if test="searchType == 'titcont' ">where title like concat('%',#{searchKey},'%') and content like concat('%',#{searchKey},'%')</if>
+		<if test="searchType == null or searchType == '' ">where 1=1</if>
+		order by eno desc
+	</select>
+
+	<insert id="join">
+		insert into member(id, pw)
+		values(#{id}, #{pw})
+	</insert>
+
+	<!-- 맵퍼xml 아이디중복확인 -->
+	<select id="checkId" resultType="int">
+		SELECT count(*) FROM member
+		where id=#{id}
+	</select>
+
+	<select id="login" resultType="MemberVO">
+		select * from member where
+		id=#{id} and pw=#{pw}
+	</select>
+
+
+	<insert id="write">
+		insert into notice (id, title, content) values (
+		#{id}, #{title}, #{content})
+
+	</insert>
+
+
+	<resultMap type="MemberVO" id="xxx">
+		<result column="eno" property="eno" />
+		<result column="id" property="id" />
+		<result column="pw" property="pw" />
+
+		<collection property="list" resultMap="yyy">
+
+		</collection>
+	</resultMap>
+
+	<resultMap type="NoticeVO" id="yyy">
+		<result column="content" property="content" />
+		<result column="title" property="title" />
+		<result column="regDate" property="regdate" />
+	</resultMap>
+
+	<select id="getMylist" resultType="NoticeVO">
+		select * from notice where id
+		= #{id} order by eno desc
+	</select>
+
+	<select id="getDetail" resultType="NoticeVO">
+		select * from notice where eno
+		= #{eno}
+	</select>
+
+	<update id="noticeUpdate">
+		update notice set title = #{title}, content = #{content} where eno = #{eno}
+	</update>
+
+	<update id="updatePW">
+		update member set pw = #{pw2} where id = #{id} and pw
+		= #{pw}
+	</update>
+
+	<update id="upHit">
+		update notice set hit = hit + 1 where eno = #{eno}
+	</update>
+
+	<delete id="errorDelete">
+		delete from notice where eno = #{eno}
+	</delete>
+
+	<!-- <select id="getMyList2" resultType="map"> select m.*, n.content, n.title, 
+		n.regDate from member m join notice n on m.id=n.id 
+		</select> 
+		<select id="getMyList" 
+		resultMap="xxx"> select m.*, n.content, n.title, n.regDate from member m 
+		join notice n on m.id=n.id 
+		</select> -->
+</mapper>
