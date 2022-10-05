@@ -83,6 +83,11 @@ notice 테이블
 |　　　|2|아이디2|글제목2|조회수2|작성일2|내용2|
 |　　　|3|아이디3|글제목3|죄회수3|작성일3|내용3|
 
+## 동작과정
+
+![개발위키-Chrome-2022-10-05-19-06-50](https://user-images.githubusercontent.com/103405475/194040180-d17b9801-57e2-4522-8d57-9d77f2282f81.gif)
+
+![개발위키-Chrome-2022-10-05-19-08-03](https://user-images.githubusercontent.com/103405475/194039386-484bd578-7c20-4bab-86fc-b066e1842d1d.gif)
 
 
 
